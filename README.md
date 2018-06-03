@@ -27,7 +27,7 @@ Basic example (full code can be found in `example/example.go`):
 ```
 package main
 
-import "github.com/InfinityTools/imagequant"
+import "github.com/InfinityTools/go-imagequant"
 
 func main() {
   att := imagequant.CreateAttributes()
