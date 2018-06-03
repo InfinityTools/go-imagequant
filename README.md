@@ -45,6 +45,10 @@ func main() {
 
 Detailed function descriptions can be found in the respective Go source files.
 
+## Documentation
+
+For docs, see https://godoc.org/github.com/InfinityTools/go-imagequant .
+
 ## License
 
 *go-imagequant* is released under the BSD 2-clause license. See LICENSE for more details.
