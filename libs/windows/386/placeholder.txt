@@ -1,0 +1,1 @@
+Place static Windows (386) library here.

@@ -1,0 +1,1 @@
+Place static Linux (amd64) library here.

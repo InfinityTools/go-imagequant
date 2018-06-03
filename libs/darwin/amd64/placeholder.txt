@@ -1,0 +1,1 @@
+Place static macOS (amd64) library here.
