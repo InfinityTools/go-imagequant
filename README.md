@@ -1,5 +1,5 @@
 # go-imagequant
-*Go bindings for libimagequant*
+[![GoDoc](https://godoc.org/github.com/InfinityTools/go-imagequant?status.svg)](https://godoc.org/github.com/InfinityTools/go-imagequant)
 
 ## About
 
