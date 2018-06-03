@@ -1,2 +1,4 @@
 # go-imagequant
-Go bindings for libimagequant.
+*Go bindings for libimagequant.*
+
+Coming soon...
