@@ -6,6 +6,8 @@ REM Use this script if you are unable or don't want to use the system library.
 setlocal
 
 REM Package-specific libraries
+set packageRoot=github.com/InfinityTools/go-imagequant
+set ldprefix=%GOPATH:\=/%/src/%packageRoot%
 set ldargs=-limagequant -lm
 
 REM Checking Go compiler
@@ -65,7 +67,7 @@ if /i %customLibdir% EQU 0 (
 )
 if /i %customLibdir% EQU 0 (
   echo Detected: os=%libos%, arch=%libarch%
-  set libdir=libs/%libos%/%libarch%
+  set libdir=%ldprefix%/libs/%libos%/%libarch%
 )
 
 echo Building library...
