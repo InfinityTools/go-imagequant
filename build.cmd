@@ -11,13 +11,8 @@ where /q go || (
   goto Failed
 )
 
-for /f "tokens=* usebackq" %%a in (`go env GOPATH`) do (
-  set gosrcpath=%%a
-)
-
-REM Package-specific libraries
-set packageRoot=github.com/InfinityTools/go-imagequant
-set ldprefix=%gosrcpath:\=/%/src/%packageRoot%
+REM Package-specific settings
+set pkgRoot=github.com/InfinityTools
 set ldargs=-limagequant -lm
 set uselibdir=0
 
@@ -47,7 +42,7 @@ goto ArgsLoop
 
 :ArgsFinished
 
-REM Handling custom libdir
+REM Handling overridden libdir
 if /i %uselibdir% EQU 1 (
   if not exist "%libdir:/=\%" (
     echo Directory does not exist: %libdir%
@@ -68,6 +63,23 @@ if /i %uselibdir% EQU 0 (
   for /f "tokens=* usebackq" %%a in (`go env GOARCH`) do (
     set libarch=%%a
   )
+)
+if /i %uselibdir% EQU 0 (
+  set pkgImagequant=%pkgRoot%/go-imagequant
+)
+if /i %uselibdir% EQU 0 (
+  go list %pkgImagequant% >nul 2>&1 || (
+    echo Package not found: %pkgImagequant%
+    goto Failed
+  )
+)
+if /i %uselibdir% EQU 0 (
+  for /f "tokens=* usebackq" %%a in (`go list -f {{.Dir}} %pkgImagequant%`) do (
+    set ldprefix=%%a
+  )
+)
+if /i %uselibdir% EQU 0 (
+  set ldprefix=%ldprefix:\=/%
 )
 if /i %uselibdir% EQU 0 (
   echo Detected: os=%libos%, arch=%libarch%

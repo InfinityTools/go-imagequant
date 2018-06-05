@@ -12,8 +12,8 @@ show_help() {
   exit 0
 }
 
-# show_message(msg: string, level: int): Print "msg" and exit with "level". Default level is 0.
-show_message() {
+# terminate(msg: string, level: int): Print "msg" and exit with "level". Default level is 0.
+terminate() {
   if test $# != 0; then
     echo $1
     shift
@@ -25,14 +25,13 @@ show_message() {
   fi
 }
 
+# Checking Go compiler
 if test ! $(which go); then
-  show_message "Error: Go compiler not found." 1
+  terminate "Error: Go compiler not found." 1
 fi
 
-# Setting up important variables
-gosrcpath=$(go env GOPATH)
-packageRoot="github.com/InfinityTools/go-imagequant"
-ldprefix="$gosrcpath/src/$packageRoot"
+# Package-specific settings
+pkgRoot="github.com/InfinityTools"
 uselibdir=0
 
 # Evaluating command line arguments...
@@ -42,7 +41,7 @@ do
   --libdir)
     shift
     if test $# = 0; then
-      show_message "Missing argument: --libdir" 1
+      terminate "Missing argument: --libdir" 1
     fi
     uselibdir=1
     libdir="$1"
@@ -54,7 +53,6 @@ do
   shift
 done
 
-
 # Setting package-specific linker options
 ldargs="-limagequant -lm"
 
@@ -62,14 +60,18 @@ if test $uselibdir = 0; then
   libos=$(go env GOOS)
   libarch=$(go env GOARCH)
   echo "Detected: os=$libos, arch=$libarch"
+
+  pkgImagequant=$pkgRoot/go-imagequant
+  ldprefix=$(go list -f {{.Dir}} $pkgImagequant)
+  test $? = 0 || terminate "Package not found: $pkgImagequant" 1
   libdir="$ldprefix/libs/$libos/$libarch"
 else
     echo "Using libdir: $libdir"
 fi
 
 if test ! -d "$libdir"; then
-  show_message "Error: Path does not exist: $libdir" 1
+  terminate "Error: Path does not exist: $libdir" 1
 fi
 
 echo "Building library..."
-CGO_LDFLAGS="-L$libdir $ldargs" go build && go install && show_message "Finished." 0 || show_message "Cancelled." 1
+CGO_LDFLAGS="-L$libdir $ldargs" go build && go install && terminate "Finished." 0 || terminate "Cancelled." 1
