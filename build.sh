@@ -30,9 +30,10 @@ if test ! $(which go); then
 fi
 
 # Setting up important variables
-gopath=$(go env GOPATH)
+gosrcpath=$(go env GOPATH)
 packageRoot="github.com/InfinityTools/go-imagequant"
-ldprefix="$gopath/src/$packageRoot"
+ldprefix="$gosrcpath/src/$packageRoot"
+uselibdir=0
 
 # Evaluating command line arguments...
 while test $# != 0
@@ -40,9 +41,10 @@ do
   case $1 in
   --libdir)
     shift
-    if test $# == 0; then
+    if test $# = 0; then
       show_message "Missing argument: --libdir" 1
     fi
+    uselibdir=1
     libdir="$1"
     ;;
   --help)
@@ -56,11 +58,10 @@ done
 # Setting package-specific linker options
 ldargs="-limagequant -lm"
 
-if test -z "$libdir"; then
+if test $uselibdir = 0; then
   libos=$(go env GOOS)
   libarch=$(go env GOARCH)
   echo "Detected: os=$libos, arch=$libarch"
-
   libdir="$ldprefix/libs/$libos/$libarch"
 else
     echo "Using libdir: $libdir"
