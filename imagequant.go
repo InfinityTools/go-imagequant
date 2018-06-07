@@ -15,8 +15,9 @@ package imagequant
 /*
 // CGO linker flags are defined for selected platforms windows/linux/freebsd/darwin and architectures 386/amd64.
 // Set CGO_LDFLAGS environment variable manually for undefined platforms and architectures or non-standard configurations.
-#cgo windows,386 LDFLAGS: -Llibs/windows/386 -limagequant -lm
-#cgo windows,amd64 LDFLAGS: -Llibs/windows/amd64 -limagequant -lm
+// Note: Use static linking on Windows. Override via CGO_LDFLAGS if needed.
+#cgo windows,386 LDFLAGS: -Llibs/windows/386 -limagequant -lm -static
+#cgo windows,amd64 LDFLAGS: -Llibs/windows/amd64 -limagequant -lm -static
 #cgo linux,386 LDFLAGS: -Llibs/linux/386 -limagequant -lm
 #cgo linux,amd64 LDFLAGS: -Llibs/linux/amd64 -limagequant -lm
 #cgo freebsd,386 LDFLAGS: -Llibs/freebsd/386 -limagequant -lm
