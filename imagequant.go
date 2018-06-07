@@ -13,8 +13,16 @@ package imagequant
 // - liq_image_create_custom
 
 /*
-// For release: Use CGO_LDFLAGS environment variable to define -Llibdir and -llibname parameters
-// Example: CGO_LDFLAGS=-L${SRCDIR} -limagequant -lm
+// CGO linker flags are defined for selected platforms windows/linux/freebsd/darwin and architectures 386/amd64.
+// Set CGO_LDFLAGS environment variable manually for undefined platforms and architectures or non-standard configurations.
+#cgo windows,386 LDFLAGS: -Llibs/windows/386 -limagequant -lm
+#cgo windows,amd64 LDFLAGS: -Llibs/windows/amd64 -limagequant -lm
+#cgo linux,386 LDFLAGS: -Llibs/linux/386 -limagequant -lm
+#cgo linux,amd64 LDFLAGS: -Llibs/linux/amd64 -limagequant -lm
+#cgo freebsd,386 LDFLAGS: -Llibs/freebsd/386 -limagequant -lm
+#cgo freebsd,amd64 LDFLAGS: -Llibs/freebsd/amd64 -limagequant -lm
+#cgo darwin,386 LDFLAGS: -Llibs/darwin/386 -limagequant -lm
+#cgo darwin,amd64 LDFLAGS: -Llibs/darwin/amd64 -limagequant -lm
 #include "libimagequant.h"
 
 const char* liqVersionString() {
