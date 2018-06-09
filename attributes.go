@@ -28,7 +28,7 @@ type Attributes struct {
 }
 
 
-// Returns an object that will hold initial settings (attributes) for the library. 
+// Returns an object that will hold initial settings (attributes) for the library.
 //
 // IMPORTANT: The object must be freed by Release after it is no longer needed.
 func CreateAttributes() *Attributes {
@@ -94,7 +94,7 @@ func (att *Attributes) GetSpeed() int {
 
 // Ignores the given number of least significant bits in all channels, posterizing image to 2^bits levels.
 //
-// 0 gives full quality. Use 2 for VGA or 16-bit RGB565 displays, 4 if image is going to be output 
+// 0 gives full quality. Use 2 for VGA or 16-bit RGB565 displays, 4 if image is going to be output
 // on a RGB444/RGBA4444 display (e.g. low-quality textures on Android).
 //
 // Returns LIQ_VALUE_OUT_OF_RANGE if the value is outside the 0-4 range.
@@ -111,16 +111,16 @@ func (att *Attributes) GetMinPosterization() int {
 
 // Quality is in range 0 (worst) to 100 (best) and values are analoguous to JPEG quality (i.e. 80 is usually good enough).
 //
-// Quantization will attempt to use the lowest number of colors needed to achieve maximum quality. max value of 100 is the default 
-// and means conversion as good as possible. If it's not possible to convert the image with at least minimum quality (i.e. 256 colors 
+// Quantization will attempt to use the lowest number of colors needed to achieve maximum quality. max value of 100 is the default
+// and means conversion as good as possible. If it's not possible to convert the image with at least minimum quality (i.e. 256 colors
 // is not enough to meet the minimum quality), then liq_image_quantize will fail. The default minimum is 0 (proceeds regardless of quality).
 //
-// Quality measures how well the generated palette fits image given to liq_image_quantize. If a different image is remapped with 
+// Quality measures how well the generated palette fits image given to liq_image_quantize. If a different image is remapped with
 // WriteRemappedImage, then actual quality may be different.
 // Regardless of the quality settings the number of colors won't exceed the maximum (see SetMaxColors).
 // The range of QUALITY_xxx constants covers the common uses.
 //
-// Returns ErrValueOutOfRange if target is lower than minimum or any of them is outside the 0-100 range. 
+// Returns ErrValueOutOfRange if target is lower than minimum or any of them is outside the 0-100 range.
 // Returns ErrInvalidPointer if attr appears to be invalid.
 func (att *Attributes) SetQuality(min, max int) error {
   code := C.liq_set_quality(att.attr, C.int(min), C.int(max))
@@ -134,7 +134,7 @@ func (att *Attributes) GetQuality() (min, max int) {
   return
 }
 
-// Setting to false makes alpha colors sorted before opaque colors. "true" mixes colors together except completely transparent color, 
+// Setting to false makes alpha colors sorted before opaque colors. "true" mixes colors together except completely transparent color,
 // which is moved to the end of the palette. This is a workaround for programs that blindly assume the last palette entry is transparent.
 func (att *Attributes) SetLastIndexTransparent(set bool) {
   v := 0

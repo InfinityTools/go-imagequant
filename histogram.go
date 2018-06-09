@@ -41,7 +41,7 @@ func (att *Attributes) AddImageToHistogram(hist *Histogram, img *Image) error {
   return getError(code)
 }
 
-// Alternative to AddImageToHistogram. Instead of counting colors in an image, it directly takes an array of colors and their counts. 
+// Alternative to AddImageToHistogram. Instead of counting colors in an image, it directly takes an array of colors and their counts.
 //
 // This function is only useful if you already have a histogram of the image from another source.
 func (att *Attributes) AddColorsToHistogram(hist *Histogram, entries []HistogramEntry, gamma float64) error {
@@ -55,8 +55,8 @@ func (att *Attributes) AddColorsToHistogram(hist *Histogram, entries []Histogram
     c_entries[k].color.a = C.uchar(a)
     c_entries[k].count = C.uint(v.Count)
   }
-  code := C.liq_histogram_add_colors(hist.histogram, att.attr, 
-                                     (*C.struct_liq_histogram_entry)(unsafe.Pointer(&c_entries[0])), 
+  code := C.liq_histogram_add_colors(hist.histogram, att.attr,
+                                     (*C.struct_liq_histogram_entry)(unsafe.Pointer(&c_entries[0])),
                                      C.int(len(c_entries)), C.double(gamma))
   return getError(code)
 }

@@ -47,7 +47,7 @@ func (att *Attributes) QuantizeImage(img *Image) (res *Result, err error) {
 
 // Enables/disables dithering in WriteRemappedImage.
 //
-// Dithering level must be between 0 and 1 (inclusive). Dithering level 0 enables fast non-dithered remapping. 
+// Dithering level must be between 0 and 1 (inclusive). Dithering level 0 enables fast non-dithered remapping.
 // Otherwise a variation of Floyd-Steinberg error diffusion is used.
 func (att *Attributes) SetDitheringLevel(res *Result, ditherLevel float32) error {
   code := C.liq_set_dithering_level(res.result, C.float(ditherLevel))
@@ -92,10 +92,10 @@ func (att *Attributes) GetPalette(res *Result) color.Palette {
 
 // Remaps the image to palette and returns the converted image as a byte array, 1 pixel per byte.
 //
-// For best performance call GetPalette after this function, as palette is improved during remapping 
+// For best performance call GetPalette after this function, as palette is improved during remapping
 // (except when QuantizeHistogram is used).
 //
-// The returned byte array is assumed to be contiguous, with rows ordered from top to bottom, and no gaps between rows. 
+// The returned byte array is assumed to be contiguous, with rows ordered from top to bottom, and no gaps between rows.
 // If you need to return a sequence of rows with padding or upside-down order, then use WriteRemappedImageRows.
 func (att *Attributes) WriteRemappedImageBuffer(res *Result, img *Image) (buf []byte, err error) {
   buf = make([]byte, att.GetImageWidth(img) * att.GetImageHeight(img))
@@ -104,9 +104,9 @@ func (att *Attributes) WriteRemappedImageBuffer(res *Result, img *Image) (buf []
   return
 }
 
-// Similar to WriteRemappedImageBuffer. Returns a remapped image, at 1 byte per pixel, to each row pointed by rows multi-array. 
+// Similar to WriteRemappedImageBuffer. Returns a remapped image, at 1 byte per pixel, to each row pointed by rows multi-array.
 //
-// The array must have at least as many elements as height of the image, and each row must have at least as many bytes as width of the image. 
+// The array must have at least as many elements as height of the image, and each row must have at least as many bytes as width of the image.
 // Rows must not overlap.
 func (att *Attributes) WriteRemappedImageBufferRows(res *Result, img *Image, rows [][]byte) (rowsOut [][]byte, err error) {
   if rows == nil { err = ErrInvalidPointer; return }
@@ -138,13 +138,13 @@ func (att *Attributes) WriteRemappedImage(res *Result, img *Image) (imgOut image
 }
 
 
-// Returns mean square error of quantization (square of difference between pixel values in the source image and its remapped version). 
+// Returns mean square error of quantization (square of difference between pixel values in the source image and its remapped version).
 //
 // Alpha channel, gamma correction and approximate importance of pixels is taken into account, so the result isn't exactly the mean square error of all channels.
 // or most images MSE 1-5 is excellent. 7-10 is OK. 20-30 will have noticeable errors. 100 is awful.
 //
-// This function may return -1 if the value is not available (this happens when a high speed has been requested, the image hasn't been remapped yet, 
-// and quality limit hasn't been set, see SetSpeed and SetQuality). The value is not updated when multiple images are remapped, it applies only to the image 
+// This function may return -1 if the value is not available (this happens when a high speed has been requested, the image hasn't been remapped yet,
+// and quality limit hasn't been set, see SetSpeed and SetQuality). The value is not updated when multiple images are remapped, it applies only to the image
 // used in QuantizeImage or the first image that has been remapped. See GetRemappingError.
 func (att *Attributes) GetQuantizationError(res *Result) float64 {
   return float64(C.liq_get_quantization_error(res.result))
@@ -157,7 +157,7 @@ func (att *Attributes) GetQuantizationQuality(res *Result) int {
   return int(C.liq_get_quantization_quality(res.result))
 }
 
-// Returns mean square error of last remapping done (square of difference between pixel values in the remapped image and its remapped version). 
+// Returns mean square error of last remapping done (square of difference between pixel values in the remapped image and its remapped version).
 //
 // Alpha channel and gamma correction are taken into account, so the result isn't exactly the mean square error of all channels.
 func (att *Attributes) GetRemappingError(res *Result) float64 {

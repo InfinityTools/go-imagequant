@@ -29,9 +29,9 @@ type Image struct {
 //
 // width and height are dimensions in pixels. An image 10x10 pixel large will need a 400-byte array.
 //
-// gamma can be 0 for images with the typical 1/2.2 gamma. Otherwise gamma must be > 0 and < 1, e.g. 0.45455 (1/2.2) or 0.55555 (1/1.8). 
+// gamma can be 0 for images with the typical 1/2.2 gamma. Otherwise gamma must be > 0 and < 1, e.g. 0.45455 (1/2.2) or 0.55555 (1/1.8).
 //
-// Generated palette will use the same gamma unless SetOutputGamma is used. If SetOutputGamma is not used, then it only affects whether 
+// Generated palette will use the same gamma unless SetOutputGamma is used. If SetOutputGamma is not used, then it only affects whether
 // brighter or darker areas of the image will get more palette colors allocated.
 //
 // Returns nil on failure, e.g. if rgba is nil or too small or width/height is <= 0.
@@ -78,8 +78,8 @@ func (att *Attributes) CreateImage(img image.Image, gamma float64) *Image {
 
 // Analyze and remap this image with assumption that it will be always presented exactly on top of this background.
 //
-// When this image is remapped to a palette with a fully transparent color (use AddImageFixedColor to ensure this) 
-// pixels that are better represented by the background than the palette will be made transparent. This function can 
+// When this image is remapped to a palette with a fully transparent color (use AddImageFixedColor to ensure this)
+// pixels that are better represented by the background than the palette will be made transparent. This function can
 // be used to improve quality of animated GIFs by setting previous animation frame as the background.
 //
 // Returns ErrBufferTooSmall if the background image has a different size than the foreground.
@@ -90,7 +90,7 @@ func (att *Attributes) SetImageBackground(img *Image, background *Image) error {
 
 // Importance map controls which areas of the image get more palette colors.
 //
-// Pixels corresponding to 0 values in the map are completely ignored. 
+// Pixels corresponding to 0 values in the map are completely ignored.
 // The higher the value the more weight is placed on the given pixel, giving it higher chance of influencing the final palette.
 // The map is one byte per pixel and must have the same size as the image (width×height bytes).
 //

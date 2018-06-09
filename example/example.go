@@ -63,10 +63,10 @@ func quantizeFile(inFile, outFile string, speed int, compression png.Compression
     return fmt.Errorf("png.Decode: %s", err.Error())
   }
 
-  // This function call initializes the main quantization structure. 
+  // This function call initializes the main quantization structure.
   // Call it once before starting the quantization process.
   quant := imagequant.CreateAttributes()
-  // It is recommended but not required to release this object after use. Go's garbage collector 
+  // It is recommended but not required to release this object after use. Go's garbage collector
   // will eventually release it automatically when it is no longer used.
   defer quant.Release()
 
